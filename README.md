@@ -113,20 +113,14 @@ go run examples/weaviate_example.go
 
 ## 演示对比
 
-我们提供了4个命令来对比传统 RAG 和 HippoRAG 的效果：
+我们提供了2个命令来对比传统 RAG 和 HippoRAG 的效果：
 
 ```bash
-# 命令1: 传统 RAG 检索 + LLM 生成答案
-make demo1
+# 传统 RAG（向量检索 + LLM）
+make traditional
 
-# 命令2: 传统 RAG 仅检索（不生成答案）
-make demo2
-
-# 命令3: HippoRAG 检索 + LLM 生成答案
-make demo3
-
-# 命令4: HippoRAG 仅检索（不生成答案）
-make demo4
+# HippoRAG（知识图谱 + PPR + LLM）
+make hippo
 ```
 
 **测试问题**: "爱因斯坦出生于哪个世纪？"
@@ -136,8 +130,8 @@ make demo4
 - 文档4: "19世纪是指1801年到1900年这段时期"
 
 **预期结果**:
-- 传统 RAG: 可能只检索到包含"爱因斯坦"的文档，遗漏"19世纪"定义
-- HippoRAG: 通过知识图谱发现"1879"和"19世纪"的关联，检索到两个文档
+- **传统 RAG**: 可能只检索到包含"爱因斯坦"的文档，遗漏"19世纪"定义
+- **HippoRAG**: 通过知识图谱发现"1879"和"19世纪"的关联，检索到两个文档
 
 详细说明请查看 [DEMO.md](DEMO.md)
 

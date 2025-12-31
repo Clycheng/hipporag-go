@@ -1,4 +1,4 @@
-.PHONY: help demo1 demo2 demo3 demo4 build-all clean
+.PHONY: help traditional hippo build-all clean
 
 # 加载 .env 文件
 ifneq (,$(wildcard ./.env))
@@ -18,29 +18,19 @@ help: ## 显示帮助信息
 	@echo "测试问题: 爱因斯坦出生于哪个世纪？"
 	@echo ""
 
-demo1: ## 命令1: 传统 RAG 检索 + LLM 生成答案
-	@echo "运行命令1: 传统 RAG 检索 + LLM 生成答案"
+traditional: ## 传统 RAG（向量检索 + LLM）
+	@echo "运行传统 RAG 演示"
 	@go run cmd/demo1_traditional_rag_qa/main.go
 
-demo2: ## 命令2: 传统 RAG 仅检索（不生成答案）
-	@echo "运行命令2: 传统 RAG 仅检索"
-	@go run cmd/demo2_traditional_rag_retrieve/main.go
-
-demo3: ## 命令3: HippoRAG 检索 + LLM 生成答案
-	@echo "运行命令3: HippoRAG 检索 + LLM 生成答案"
+hippo: ## HippoRAG（知识图谱 + PPR + LLM）
+	@echo "运行 HippoRAG 演示"
 	@go run cmd/demo3_hipporag_qa/main.go
 
-demo4: ## 命令4: HippoRAG 仅检索（不生成答案）
-	@echo "运行命令4: HippoRAG 仅检索"
-	@go run cmd/demo4_hipporag_retrieve/main.go
-
 build-all: ## 编译所有演示程序
-	@echo "编译所有演示程序..."
+	@echo "编译演示程序..."
 	@mkdir -p bin
-	@go build -o bin/demo1 cmd/demo1_traditional_rag_qa/main.go
-	@go build -o bin/demo2 cmd/demo2_traditional_rag_retrieve/main.go
-	@go build -o bin/demo3 cmd/demo3_hipporag_qa/main.go
-	@go build -o bin/demo4 cmd/demo4_hipporag_retrieve/main.go
+	@go build -o bin/traditional cmd/demo1_traditional_rag_qa/main.go
+	@go build -o bin/hippo cmd/demo3_hipporag_qa/main.go
 	@echo "✓ 编译完成，可执行文件在 bin/ 目录"
 
 clean: ## 清理编译文件
