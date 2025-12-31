@@ -115,21 +115,26 @@ func (h *HippoRAG) Index(ctx context.Context, docs []string) error {
 	for chunkIdx, extraction := range extractions {
 		chunkID := chunkIDs[chunkIdx]
 
-		// 添加 passage 边：文档块 -> 实体
+		// 添加 passage 边：文档块 <-> 实体（双向）
 		for _, entity := range extraction.Entities {
 			if entityID, exists := entityIDMap[entity]; exists {
+				// 正向：chunk -> entity
 				h.graph.AddEdge(chunkID, entityID, 1.0, "passage")
+				// 反向：entity -> chunk（让 PPR 能传播回文档块）
+				h.graph.AddEdge(entityID, chunkID, 1.0, "passage_back")
 			}
 		}
 
-		// 添加 fact 边：实体 -> 实体（通过关系连接）
+		// 添加 fact 边：实体 <-> 实体（双向，支持双向推理）
 		for _, triple := range extraction.Triples {
 			subjectID, subjectExists := entityIDMap[triple.Subject]
 			objectID, objectExists := entityIDMap[triple.Object]
 
 			if subjectExists && objectExists {
-				// 添加有向边
+				// 正向边
 				h.graph.AddEdge(subjectID, objectID, 1.0, "fact")
+				// 反向边（权重可以稍低）
+				h.graph.AddEdge(objectID, subjectID, 0.5, "fact_back")
 			}
 		}
 	}
