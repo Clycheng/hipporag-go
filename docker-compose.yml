@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  weaviate:
+    image: semitechnologies/weaviate:latest
+    ports:
+      - "8080:8080"
+    environment:
+      # 基础配置
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      
+      # 默认向量化器设置为 none（我们自己提供向量）
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      
+      # 启用模块
+      ENABLE_MODULES: ''
+      
+      # 集群配置
+      CLUSTER_HOSTNAME: 'node1'
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    restart: unless-stopped
+
+volumes:
+  weaviate_data:
+    driver: local
