@@ -1,4 +1,4 @@
-.PHONY: help traditional hippo build-all clean
+.PHONY: help rag hippo build-all clean
 
 # 加载 .env 文件
 ifneq (,$(wildcard ./.env))
@@ -18,7 +18,7 @@ help: ## 显示帮助信息
 	@echo "测试问题: 爱因斯坦出生于哪个世纪？"
 	@echo ""
 
-traditional: ## 传统 RAG（向量检索 + LLM）
+rag: ## 传统 RAG（向量检索 + LLM）
 	@echo "运行传统 RAG 演示"
 	@go run cmd/demo1_traditional_rag_qa/main.go
 
@@ -29,7 +29,7 @@ hippo: ## HippoRAG（知识图谱 + PPR + LLM）
 build-all: ## 编译所有演示程序
 	@echo "编译演示程序..."
 	@mkdir -p bin
-	@go build -o bin/traditional cmd/demo1_traditional_rag_qa/main.go
+	@go build -o bin/rag cmd/demo1_traditional_rag_qa/main.go
 	@go build -o bin/hippo cmd/demo3_hipporag_qa/main.go
 	@echo "✓ 编译完成，可执行文件在 bin/ 目录"
 

@@ -117,7 +117,7 @@ go run examples/weaviate_example.go
 
 ```bash
 # 传统 RAG（向量检索 + LLM）
-make traditional
+make rag
 
 # HippoRAG（知识图谱 + PPR + LLM）
 make hippo
