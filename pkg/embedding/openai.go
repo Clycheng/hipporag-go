@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 // OpenAIClient OpenAI Embedding 客户端
@@ -28,10 +29,17 @@ func NewOpenAIClient(apiKey string, model string) *OpenAIClient {
 	if model == "" {
 		model = "text-embedding-3-small"
 	}
+
+	// 从环境变量读取 base URL，默认使用官方 API
+	baseURL := os.Getenv("OPENAI_BASE_URL")
+	if baseURL == "" {
+		baseURL = "https://api.openai.com/v1"
+	}
+
 	return &OpenAIClient{
 		apiKey:  apiKey,
 		model:   model,
-		baseURL: "https://api.openai.com/v1",
+		baseURL: baseURL,
 		client:  &http.Client{},
 	}
 }

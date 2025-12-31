@@ -1,5 +1,11 @@
 .PHONY: help demo1 demo2 demo3 demo4 build-all clean
 
+# 加载 .env 文件
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
 help: ## 显示帮助信息
 	@echo "HippoRAG 演示命令"
 	@echo "================"

@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -31,11 +32,17 @@ func NewOpenAIClient(apiKey, model string) *OpenAIClient {
 		model = "gpt-4o-mini"
 	}
 
+	// 从环境变量读取 base URL，默认使用官方 API
+	baseURL := os.Getenv("OPENAI_BASE_URL")
+	if baseURL == "" {
+		baseURL = "https://api.openai.com/v1"
+	}
+
 	return &OpenAIClient{
 		apiKey:      apiKey,
 		model:       model,
 		temperature: 0.0, // 默认确定性输出
-		baseURL:     "https://api.openai.com/v1",
+		baseURL:     baseURL,
 		client: &http.Client{
 			Timeout: 120 * time.Second,
 		},

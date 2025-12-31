@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   weaviate:
-    image: semitechnologies/weaviate:latest
+    image: semitechnologies/weaviate:1.24.1
     ports:
       - "8080:8080"
     environment:
@@ -21,6 +19,15 @@ services:
       CLUSTER_HOSTNAME: 'node1'
     volumes:
       - weaviate_data:/var/lib/weaviate
+    restart: unless-stopped
+
+  # Weaviate Console - 可视化界面
+  weaviate-console:
+    image: semitechnologies/weaviate-console:latest
+    ports:
+      - "8081:80"
+    depends_on:
+      - weaviate
     restart: unless-stopped
 
 volumes:
