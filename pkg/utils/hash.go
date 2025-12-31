@@ -23,3 +23,46 @@ func Hash(s string) string {
 func HashString(s string) string {
 	return Hash(s)
 }
+
+// ComputeHash 计算字符串的 MD5 哈希（带前缀）
+func ComputeHash(content string, prefix string) string {
+	h := sha256.New()
+	h.Write([]byte(content))
+	return prefix + hex.EncodeToString(h.Sum(nil))
+}
+
+// MinMaxNormalize 将分数归一化到 [0, 1] 区间
+func MinMaxNormalize(scores []float64) []float64 {
+	if len(scores) == 0 {
+		return scores
+	}
+
+	// 找到最小值和最大值
+	minScore := scores[0]
+	maxScore := scores[0]
+	for _, score := range scores {
+		if score < minScore {
+			minScore = score
+		}
+		if score > maxScore {
+			maxScore = score
+		}
+	}
+
+	// 如果所有分数相同，返回全 1
+	if maxScore == minScore {
+		normalized := make([]float64, len(scores))
+		for i := range normalized {
+			normalized[i] = 1.0
+		}
+		return normalized
+	}
+
+	// 归一化
+	normalized := make([]float64, len(scores))
+	for i, score := range scores {
+		normalized[i] = (score - minScore) / (maxScore - minScore)
+	}
+
+	return normalized
+}

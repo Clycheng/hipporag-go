@@ -37,8 +37,9 @@ func main() {
 	config := hipporag.DefaultConfig()
 	config.ChunkSize = 100 // 使用较小的块，因为文档很短
 	config.ChunkOverlap = 0
-	config.TopKEntities = 5
-	config.TopKChunks = 3
+	config.TopKEntities = 20 // 增加到 20，应对更多噪音
+	config.TopKChunks = 15   // 增加到 15，确保能检索到所有相关文档
+	config.PPRDamping = 0.5  // 降低阻尼系数，让分数传播更广
 
 	rag := hipporag.NewHippoRAG(config, embeddingClient, llmClient)
 
@@ -85,7 +86,7 @@ func main() {
 		}
 
 		// 执行查询
-		_, err := rag.Query(ctx, question)
+		_, err := rag.QueryFull(ctx, question)
 		if err != nil {
 			fmt.Printf("❌ 查询失败: %v\n", err)
 		}
