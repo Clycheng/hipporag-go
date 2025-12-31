@@ -37,6 +37,14 @@ Thumbs.db
 configs/config.yaml
 !configs/config.example.yaml
 
+# Environment variables (IMPORTANT: contains API keys)
+.env
+.env.*
+!.env.example
+
+# Kiro configuration (local IDE settings)
+.kiro/
+
 # Logs
 *.log
 
