@@ -53,6 +53,8 @@ HippoRAG (Hippocampus-Inspired Retrieval-Augmented Generation) 是一个受海�
 
 **👉 查看 [QUICKSTART.md](QUICKSTART.md) 获取详细的快速开始指南**
 
+**👉 查看 [DEMO.md](DEMO.md) 了解如何运行对比演示**
+
 ### 环境要求
 
 - Go 1.21+
@@ -108,6 +110,36 @@ docker-compose up -d
 ```bash
 go run examples/weaviate_example.go
 ```
+
+## 演示对比
+
+我们提供了4个命令来对比传统 RAG 和 HippoRAG 的效果：
+
+```bash
+# 命令1: 传统 RAG 检索 + LLM 生成答案
+make demo1
+
+# 命令2: 传统 RAG 仅检索（不生成答案）
+make demo2
+
+# 命令3: HippoRAG 检索 + LLM 生成答案
+make demo3
+
+# 命令4: HippoRAG 仅检索（不生成答案）
+make demo4
+```
+
+**测试问题**: "爱因斯坦出生于哪个世纪？"
+
+这个问题需要结合两个文档才能回答：
+- 文档2: "爱因斯坦于1879年3月14日出生于德国乌尔姆"
+- 文档4: "19世纪是指1801年到1900年这段时期"
+
+**预期结果**:
+- 传统 RAG: 可能只检索到包含"爱因斯坦"的文档，遗漏"19世纪"定义
+- HippoRAG: 通过知识图谱发现"1879"和"19世纪"的关联，检索到两个文档
+
+详细说明请查看 [DEMO.md](DEMO.md)
 
 ## 使用示例
 
