@@ -59,11 +59,24 @@ HippoRAG (Hippocampus-Inspired Retrieval-Augmented Generation) 是一个受海�
 - OpenAI API Key
 - (可选) Docker - 用于运行 Weaviate
 
+### 环境配置
+
+1. 复制环境变量模板：
+```bash
+cp .env.example .env
+```
+
+2. 编辑 `.env` 文件，填入你的 OpenAI API Key：
+```bash
+OPENAI_API_KEY=your-actual-api-key-here
+```
+
+⚠️ **重要**: `.env` 文件包含敏感信息，已被 `.gitignore` 忽略，不会被提交到 Git。
+
 ### 最简单的开始方式（无需 Docker）
 
 ```bash
-# 1. 设置 API Key
-export OPENAI_API_KEY="your-api-key-here"
+# 1. 配置环境变量（见上方）
 
 # 2. 下载依赖
 go mod download
